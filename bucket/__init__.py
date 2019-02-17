@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from boto3 import client
 from os import environ
 
@@ -12,6 +12,24 @@ _s3 = client(
     aws_secret_access_key = environ['S3_SECRET'],
     endpoint_url = environ['S3_ENDPOINT']
 )
+
+@app.route('/copy', methods = ['POST'])
+def copy():
+    errors = []
+    for key in request.json:
+        try:
+            _s3.copy_object(
+                Bucket = environ['S3_BUCKET'],
+                CopySource = f'{environ["S3_BUCKET"]}/{key}',
+                Key = 'Copy of ' + key
+            )
+        except:
+            errors.append(key)
+    if errors:
+        if len(errors) == len(request.json):
+            return '', 500
+        return 'Some objects were not able to be copied.', 205
+    return '', 205
 
 @app.route('/')
 def index():

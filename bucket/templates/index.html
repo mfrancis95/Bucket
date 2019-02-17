@@ -3,8 +3,9 @@
     <head>
         <link href="https://themeswitcher.csh.rit.edu/api/get" rel="stylesheet">
         <link href="https://cdn.datatables.net/v/bs4/dt-1.10.18/sl-1.2.6/datatables.min.css" rel="stylesheet">
+        <link href="/static/style.css" rel="stylesheet">
         <meta content="initial-scale=1, width=device-width" name="viewport">
-        <script crossorigin="anonymous" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script defer src="https://cdn.datatables.net/v/bs4/dt-1.10.18/sl-1.2.6/datatables.min.js"></script>
         <script crossorigin="anonymous" defer integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <script defer src="/static/script.js"></script>
@@ -14,11 +15,20 @@
         <nav class="bg-primary navbar navbar-dark navbar-expand-lg sticky-top">
             <div class="container">
                 <a class="navbar-brand" href="/">Bucket</a>
+                <button class="navbar-toggler navbar-toggler-right" data-target="#collapse" data-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="collapse">
+                    <ul class="navbar-nav">
+                        <li>
+                            <a class="nav-link" data-target="#copy-modal" data-toggle="modal" href="#">Copy</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
         <div class="container">
             <table class="table table-bordered table-striped" id="table">
                 <thead>
+                    <th></th>
                     <th>Name</th>
                     <th>Last Modified</th>
                     <th>Size</th>
@@ -26,6 +36,7 @@
                 <tbody>
                     {% for object in objects %}
                     <tr>
+                        <td></td>
                         <td>{{object.Key}}</td>
                         <td>{{object.LastModified}}</td>
                         <td>{{object.Size}}</td>
@@ -33,6 +44,23 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        <div class="modal" id="copy-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Copy</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="copy-objects"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="copy">Copy</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>
