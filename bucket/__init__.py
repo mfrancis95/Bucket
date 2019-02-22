@@ -31,6 +31,12 @@ def copy():
         return 'Some objects were not able to be copied.', 205
     return '', 205
 
+@app.route('/delete', methods = ['POST'])
+def delete():
+    for key in request.json:
+        _s3.delete_object(Bucket = environ['S3_BUCKET'], Key = key)
+    return '', 205
+
 @app.route('/')
 def index():
     return render_template(
