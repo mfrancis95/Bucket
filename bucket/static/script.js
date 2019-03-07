@@ -40,4 +40,18 @@ $(document).ready(() => {
             url: '/delete'
         });
     });
+    $('#rename-modal').on('show.bs.modal', () => {
+        selected = $.map(table.rows({selected: true}).data(), row => row[1]);
+        $('#rename-objects').html(selected.map(key => `<p>${key}</p>`));
+    });
+    $('#rename').click(() => {
+        $.ajax({
+            contentType: 'application/json',
+            data: JSON.stringify({name: $('#rename-name').val(), objects: selected}),
+            failure: data => $('#rename-modal').modal('hide'),
+            success: data => location.reload(),
+            type: 'POST',
+            url: '/rename'
+        });
+    });
 });

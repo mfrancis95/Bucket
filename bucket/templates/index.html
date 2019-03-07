@@ -24,6 +24,9 @@
                         <li>
                             <a class="nav-link" data-target="#delete-modal" data-toggle="modal" href="#">Delete</a>
                         </li>
+                        <li>
+                            <a class="nav-link" data-target="#rename-modal" data-toggle="modal" href="#">Rename</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -77,6 +80,29 @@
                     <div class="modal-body" id="delete-objects"></div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="delete">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="rename-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Rename</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="rename-objects"></div>
+                        <div class="form-group">
+                            <label for="rename-name">Rename: </label>
+                            <input id="rename-name" type="text">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="rename">Rename</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>

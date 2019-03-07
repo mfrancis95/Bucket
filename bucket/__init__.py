@@ -16,6 +16,7 @@ _s3 = client(
 @app.route('/copy', methods = ['POST'])
 def copy():
     errors = []
+    i = 0
     for key in request.json:
         try:
             _s3.copy_object(
@@ -23,6 +24,7 @@ def copy():
                 CopySource = f'{environ["S3_BUCKET"]}/{key}',
                 Key = 'Copy of ' + key
             )
+            i += 1
         except:
             errors.append(key)
     if errors:
@@ -43,3 +45,24 @@ def index():
         'index.html',
         objects = _s3.list_objects(Bucket = environ['S3_BUCKET'])['Contents']
     )
+
+@app.route('/rename', methods = ['POST'])
+def rename():
+    errors = []
+    i = 0
+    for key in request.json.get('objects'):
+        try:
+            _s3.copy_object(
+                Bucket = environ['S3_BUCKET'],
+                CopySource = f'{environ["S3_BUCKET"]}/{key}',
+                Key = (f'({i}) ' if i else '') + request.json['name']
+            )
+            i += 1
+            _s3.delete_object(Bucket = environ['S3_BUCKET'], Key = key)
+        except:
+            errors.append(key)
+    if errors:
+        if len(errors) == len(request.json):
+            return '', 500
+        return 'Some objects were not able to be renamed.', 205
+    return '', 205
